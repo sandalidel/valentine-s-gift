@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <section id="landing" class="screen active">
+        <div class="content">
+            <img src="bear.gif" alt="Cute Bear" width="200" height="200">
+            <p>🐾</p>
+            <h1 id="main-title">HELLO</h1>
+            <h1 id="main-title-love" style="color:#A94064;">MY LOVE!</h1> 
+            <p id="main-text">do you want to see your gift?</p>
+            <div class="buttons">
+                <button onclick="navigate('menu')">YES PLEASE</button>
+                <button onclick="forceYes()">NO THANKS</button>
+                <div id="gif-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="screen">
+        <h2>THESE ARE FOR YOU!</h2>
+        <p>I hope you like it, I love you!</p>
+        <div class="grid">
+            <div class="card" onclick="navigate('photos')"><img src="puzzle.jpg" alt="puzzle"></div>
+            <div class="card" onclick="navigate('flowers')"><img src="flower.jpg" alt="flower"></div>
+            <div class="card" onclick="navigate('music')"><img src="music.jpg" alt="music"></div>
+            <div class="card" onclick="navigate('letter')"><img src="letter.jpg" alt="letter"></div>
+        </div>
+    </section>
+
+    <section id="photos" class="screen">
+        <div class="content">
+            <h2>The Puzzle</h2>
+            <div id="puzzle-container"> 
+                <div id="puzzle-board"></div>
+            </div>
+            <div class="puzzle-controls"> 
+                <button class="return-btn" onclick="navigate('menu')">RETURN</button>
+                <button class="check-btn" onclick="checkWin()">I'M DONE!</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="flowers" class="screen">
+        <div class="flower-stage">
+            <div class="side-messages left">
+                <div class="tiny-message msg-1">You're my favorite view ❤️</div>
+                <div class="tiny-message msg-3">My beautiful baby 🌸</div>
+            </div>
+            <div class="bouquet-wrap">
+                <img src="lotus.jpeg" alt="Lotus" class="main-lotus"> 
+                <h3 class="flower-name">LOTUS</h3>
+                <p class="flower-text">Your Favorite Flower Baby...</p>
+            </div>
+            <div class="side-messages right">
+                <div class="tiny-message msg-2">Pure as a lotus ✨</div>
+                <div class="tiny-message msg-4">I love you more! 🌷</div>
+            </div>
+        </div>
+        <button class="return-btn" onclick="navigate('menu')">RETURN</button>
+    </section> 
+
+       <section id="music" class="screen">
+    <div class="music-container">
+        <h2 class="music-header">Songs for My Favorite Person 🎧</h2>
+        <div class="video-frame">
+            <div id="player"></div>
+        </div>
+        <div class="music-info">
+            <p id="song-title">These songs remind me of you babyyy...</p>
+        </div>
+        
+        <div class="player-controls">
+            <button class="music-btn" onclick="prevVideo()">
+                <img src="pre.jpg" width="50" height="50" alt="Previous">
+            </button>
+            <button class="music-btn play-btn" onclick="togglePlay()" id="play-btn-text">PLAY</button>
+            <button class="music-btn" onclick="nextVideo()">
+                <img src="next.jpg" width="50" height="50" alt="Next">
+            </button>
+        </div>
+
+        <button class="return-btn" onclick="navigate('menu')">RETURN</button>
+    </div> </section> ```
+
+
+
+    <section id="letter" class="screen">
+        <div class="letter-content">
+            <p class="fade-in-text">
+                To My Forever Valentine, <br><br>
+                 Hey babyyy…😁🎀✨Okay first of all, I’m not that good at writing, so no judgies, alright? 🙄🎀But if words could ever carry my heart properly, they would all spell you.<br><br>
+
+As I always say, you are the most beautiful gift life has ever handed me. I don’t think you truly know how grateful I am to have you 😖how thankful my soul feels every single day just because you exist in my life 🥹♥️✨You walked into my world so gently, yet you changed everything.<br>
+
+You gave me a kind of love I had never known before🥹💖a love that feels safe, deep, and endlessly warm. You are the only person who understands me completely, the one who knows what I’m feeling even when I say nothing at all, even when miles stand between us. You love me like the deepest ocean quiet, powerful, endless and in you, I found my safe place, my peace, my everything 🤍🌊✨<br>
+
+I love you more than words could ever dare to explain baby. No sentence, no poem, no language feels big enough to hold what I feel for you 🥹❤️‍🔥✨I have never met a soul as pure, as beautiful, as precious as yours. You are rare in a world that often forgets how to love deeply with the soul 🥹❤️‍🔥<br>
+
+I wish I could say all of this while looking into your eyes, while holding your face in my hands, while feeling your heartbeat next to mine 🥺 But even though you’re far from me right now, distance could never change the truth my heart belongs only to my bodu🫂♥️And I promise you, I’ll come to you so soon… closer, forever closer 🥺🫂♥️<br>
+
+This is my first Valentine’s Day, baby, and I couldn’t have imagined celebrating it with anyone else but you. I want every first that’s still waiting for me every laugh, every dream, every milestone, every memory to be with you. I want a lifetime of beginnings and forever with you by my side 💞 so Happy Valentine's Day to My sweet bodu 🥹🫂♥️✨<br>
+
+Please stay with me, love. Today, tomorrow, and in every lifetime that follows.Forever yours,your baby 💖🫂       
+            </p>
+            <button class="menu-btn" onclick="navigate('menu')">Back to Menu</button>
+        </div>
+    </section>
+
+    <div id="success-overlay" class="overlay">
+        <div class="overlay-content">
+            <div class="sparkle-icons">✨💖✨</div>
+            <h2>Great job baby!</h2>
+            <p>Hope you like it!</p>
+            <div class="success-gif">
+                <img src="done.gif" width="180">
+            </div>
+            <button class="yes-btn" onclick="closeSuccess()">YES! ❤️</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

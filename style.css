@@ -1,0 +1,470 @@
+body {
+    margin: 0;
+    font-family: 'Indie Flower', cursive;
+    background-color: #f4f4f4;
+    background-image: url('heart.jpg'); 
+    background-size: cover;
+    background-attachment: fixed;
+    /* Remove display: flex from here so it doesn't break other pages */
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.screen {
+    display: none; 
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+    width: 100vw; /* Make it full width */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* This is the magic part that centers your content only when a screen is active */
+.screen.active {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* This centers everything on the Home/Menu/Music pages */
+}
+
+#landing.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* --- THE PUZZLE AREA --- */
+#photos {
+    padding-bottom: 80px;
+}
+
+/* Fixes the 2x2 Gift Grid from the video */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns exactly */
+    gap: 20px;
+    justify-items: center;
+    max-width: 350px;
+    margin: 20px auto;
+}
+
+/* Adds the grid lines to the board */
+#puzzle-board {
+    position: relative;
+    width: 320px;
+    height: 480px;
+    margin: 20px auto;
+    border: 3px solid #ffb6c1;
+    background-color: rgba(255, 255, 255, 0.6);
+    /* This creates the thin pink grid lines */
+    background-image: 
+        linear-gradient(to right, rgba(255, 182, 193, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 182, 193, 0.3) 1px, transparent 1px);
+    background-size: 80px 80px; 
+    overflow: visible !important;
+}
+
+.puzzle-piece {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    cursor: grab;
+    background-size: 320px 480px;
+    z-index: 10;
+    pointer-events: auto !important;
+    touch-action: none; /* Prevents screen from sliding while dragging */
+    box-sizing: border-box;
+    position: absolute; /* This is vital so it ignores the flexbox parent */
+    transition: transform 0.2s, box-shadow 0.2s;
+    
+    /* Jigsaw Shape */
+    clip-path: polygon(10% 10%, 25% 10%, 25% 0%, 50% 0%, 50% 10%, 75% 10%, 75% 0%, 100% 0%, 100% 25%, 90% 25%, 90% 50%, 100% 50%, 100% 75%, 90% 75%, 90% 100%, 75% 100%, 75% 90%, 50% 90%, 50% 100%, 25% 100%, 25% 90%, 10% 90%, 10% 100%, 0% 100%, 0% 75%, 10% 75%, 10% 50%, 0% 50%, 0% 25%, 10% 25%, 10% 0%);
+}
+
+.puzzle-piece:active {
+    cursor: grabbing;
+    z-index: 1000;
+}
+
+/* Perfect fit when snapped: Removes the jagged edges and locks size */
+.puzzle-piece.snapped {
+    clip-path: none; 
+    width: 80px;
+    height: 80px;
+    z-index: 1;
+    pointer-events: none; /* Piece can no longer be moved */
+}
+
+/* Success Pop-up Styles */
+.overlay {
+    display: none; /* Keep this so it starts hidden */
+    position: fixed; /* Fixes it to the screen, not the page */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7); /* Darkens the background to make pop-up stand out */
+    backdrop-filter: blur(5px); /* Makes the puzzle look blurry behind the pop-up */
+    z-index: 99999; /* Higher than EVERYTHING else */
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    display: flex; /* Adds this to stack content vertically */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Adds space between text, gif, and button */
+    border: 3px solid #ffb6c1;
+    box-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
+    max-width: 80%; /* Good for mobile */
+}
+
+.yes-btn {
+    background: #ffb6c1;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-family: 'Indie Flower', cursive;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.yes-btn:hover {
+    transform: scale(1.1);
+    background: #ff99aa;
+}
+
+.sparkle-star {
+    position: absolute;
+    font-size: 24px;
+    pointer-events: none;
+    animation: floatSparkle 3s ease-in-out infinite;
+    z-index: 10001; /* Sits on top of the overlay */
+}
+
+@keyframes floatSparkle {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.2);
+    }
+    100% {
+        transform: translateY(-40px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* --- BUTTONS & CONTROLS --- */
+.puzzle-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    z-index: 2000;
+}
+
+button {
+    background: white;
+    border: 2px solid #ffb6c1;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-family: 'Indie Flower', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ffb6c1;
+    color: white;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* This creates the 2x2 layout from the video */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.card {
+    background: white;
+    padding: 15px; /* The "Polaroid" frame */
+    border: 1px solid #E7ACCF;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 140px; 
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keeps the icon sharp */
+    border: 2px solid #D470A2;
+    border-radius: 0; /* Keeps them square like the video icons */
+}
+
+.card:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+/* Fixed Background: Less zoom, less brightness */
+body.flower-bg {
+    /* Using 0.6 opacity to make it darker (60% dark tint) */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                      url('night.jpg'); 
+    background-size: contain; /* Prevents extreme zooming */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #000; /* Black background behind the image */
+    min-height: 100vh;
+}
+
+/* Special Background for Flower Page */
+/* Flower Stage Layout */
+.flower-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 70vh;
+    gap: 40px; /* Reduced gap so it fits smaller screens better */
+    padding: 20px;
+    box-sizing: border-box;
+}
+/* Increased Lotus Size */
+.main-lotus {
+    /* 1. Try setting this to 380px or 400px to see a big jump in size */
+    width: 380px !important; 
+    
+    /* 2. Remove max-width and max-height temporarily to see if they are blocking the growth */
+    height: auto !important;
+    
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
+    animation: sway 4s ease-in-out infinite;
+}
+
+/* Styled Box Frames for Messages */
+.tiny-message {
+    background: rgba(255, 255, 255, 0.95); /* Solid white for clarity */
+    padding: 12px 20px;
+    border-radius: 12px; /* Less rounded for a "box" look */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* Darker text for readability */
+    
+    /* The Box Frame/Border */
+    border: 3px solid #ffb6c1; 
+    box-shadow: 4px 4px 0px rgba(255, 182, 193, 0.3); /* Trendy shadow effect */
+    
+    white-space: nowrap;
+    animation: float 3s ease-in-out infinite;
+    z-index: 10;
+}
+
+.side-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 140px; /* More vertical space between the boxed messages */
+}
+
+/* Ensure names/text don't overlap */
+.flower-name { 
+    font-size: 28px; 
+    color: white; 
+    margin: 10px 0 0 0; 
+}
+.flower-text { 
+    color: white; 
+    font-size: 18px; 
+    margin: 5px 0 0 0; 
+    font-weight: bold;
+}
+.return-btn {
+    display: block; /* Allows margin: auto to work */
+    margin: 20px auto; 
+    padding: 10px 30px;
+    z-index: 100;
+}
+
+/* Background specifically for Music Screen */
+
+body.music-bg {
+    /* 'cover' makes it fill the screen, but we will fix the zoom with positioning */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                      url('love.jpg'); 
+    background-size: cover; 
+    background-color:#EE7272;
+    background-position: center 20%; /* This '20%' pushes the image slightly up to show the cute bears better */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* This keeps the background still while elements move */
+    min-height: 100vh;
+    transition: background 0.5s ease-in-out;
+}
+
+.music-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: 50px; /* Adjust this to move the player up or down */
+    box-sizing: border-box;
+}
+
+.music-header {
+    color: white;
+    font-family: 'Indie Flower', cursive;
+    margin-bottom: 20px;
+}
+
+/* The Pink Frame around YouTube */
+
+.video-frame {
+    width: 450px; /* Increased from 340px */
+    height: 280px; /* Increased from 220px */
+    border: 8px solid #960018; 
+    border-radius: 25px;
+    padding: 10px;
+    background: white;
+    box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* This crops the video to match the rounded frame corners */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* Black background while the video loads */
+}
+
+.music-info p {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.player-controls {
+    display: flex;
+    gap: 20px;
+}
+
+.music-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #960018;
+    border-radius: 50%;
+    width: 65px; /* Slightly bigger to accommodate the image borders */
+    height: 65px;
+    cursor: pointer;
+    transition: 0.3s;
+    
+    /* ADD THESE LINES: This centers the image perfectly */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0; /* Removes default button padding */
+    overflow: hidden; /* Keeps the image inside the circle */
+}
+
+/* NEW RULE: This controls the size of your JPG icons */
+.music-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This makes the image fill the circle nicely */
+    border-radius: 50%; /* Ensures the image itself is also a circle */
+}
+
+.music-btn.play-btn {
+    width: 120px;
+    border-radius: 30px;
+    font-family: 'Indie Flower', cursive;
+    font-weight: bold;
+    display: flex; /* Keeps the text centered */
+}
+
+.music-btn:hover {
+    background: #ffb6c1;
+    color: #960018;
+    transform: scale(1.1);
+}
+
+.return-btn {
+    margin-top: 30px;
+    background: white;
+    border: 2px solid pink;
+    color: pink;
+    font-weight: bold;
+    padding: 10px 40px;
+    border-radius: 20px;
+    z-index: 100; /* Ensures it sits on top of the background */
+}
+
+/* Specific Background for Letter */
+#letter {
+    display: none; /* Hidden by default */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                      url('pink.jpg');
+    background-size: cover; /* This makes the bears big */
+    background-position: center; /* Pins the bears to the bottom */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    width: 100vw;
+    /* Forces the letter box to the dead center */
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}
+
+/* Ensure that when navigate('letter') is called, it uses flex */
+#letter.active {
+    display: flex !important;
+}
+
+.letter-content {
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 30px;
+    border-radius: 30px;
+    width: 85%;            /* Increased width */
+    max-width: 650px;      /* Professional card width */
+    max-height: 65vh;      /* Limits height so bears show at the bottom */
+    overflow-y: auto;      /* Adds the scrollbar for your long letter */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin-bottom: 50px;   /* Pushes box up slightly to see bears better */
+}
