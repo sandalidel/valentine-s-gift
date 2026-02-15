@@ -126,14 +126,14 @@ function closeSuccess() {
 let player;
 let currentVideoIndex = 0;
 const playlist = [
-    { id: 'HQitbbtPZz8', title: "Song Name 1" },
-    { id: 'U4D7OquQrz4', title: "Song Name 2" },
-    { id: 'fz78HOxOgEY', title: "Song Name 3" },
-    { id: 'GJNdR_MKuDM', title: "Song Name 4" },
-    { id: 'jA1hQi9nTdo', title: "Song Name 5" },
-    { id: 'qVrpP4jZ3-Q', title: "Song Name 6" },
-    { id: 'qVrpP4jZ3-Q', title: "Song Name 7" },
-    { id: 'qklsqykuD_0', title: "Song Name 8" }
+    { id: 'HQitbbtPZz8', title: "Song 1" },
+    { id: 'U4D7OquQrz4', title: "Song 2" },
+    { id: 'fz78HOxOgEY', title: "Song 3" },
+    { id: 'GJNdR_MKuDM', title: "Song 4" },
+    { id: 'jA1hQi9nTdo', title: "Song 5" },
+    { id: 'qVrpP4jZ3-Q', title: "Song 6" },
+    { id: 'qVrpP4jZ3-Q', title: "Song 7" },
+    { id: 'qklsqykuD_0', title: "Song 8" }
 ];
 
 // This is the "Magic" function YouTube looks for
@@ -186,4 +186,5 @@ function prevVideo() {
 
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
+
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
